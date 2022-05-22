@@ -21,6 +21,7 @@ import argparse
 import wandb
 import os
 from torch.optim.lr_scheduler import *
+from polyscheduler import *
 
 
 def train(train_loader, model, criterion, optimizer, epoch, grad_clip):
@@ -202,10 +203,13 @@ def main(args):
 				not_biases.append(param)
 				param_names_not_biases.append(param_name)
 				
-	optimizer = torch.optim.SGD(params=[{'params': biases, 'lr': lr}, {'params': not_biases}],
-	lr=lr,momentum=momentum, weight_decay=weight_decay)
-	#scheduler =MultiStepLR(optimizer,milestones=[12,16,20,24,26,30,34,38],gamma=0.1)
-	scheduler = ReduceLROnPlateau(optimizer, 'min',factor=0.1,patience=3,threshold=0.01,threshold_mode='rel')
+	# optimizer = torch.optim.SGD(params=[{'params': biases, 'lr': lr}, {'params': not_biases}],
+	# lr=lr,momentum=momentum, weight_decay=weight_decay)
+ 
+	optimizer = torch.optim.Adam(params=[{'params': biases}, {'params': not_biases}], lr=lr,momentum=momentum, weight_decay=weight_decay)
+	scheduler =MultiStepLR(optimizer,milestones=[4,8,12,16,20,24,28,32,36,40],gamma=0.1)
+ 
+	#scheduler = ReduceLROnPlateau(optimizer, 'min',factor=0.1,patience=3,threshold=0.01,threshold_mode='rel')
 	model = model.to(device)
 	criterion = MultiBoxLoss(priors_cxcy=model.priors).to(device)
 	
