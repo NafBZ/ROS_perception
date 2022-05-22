@@ -1,0 +1,12 @@
+{
+    "batch_size": 32,
+    "n_epochs": 50,
+    "lr": 1e-3,
+    "weight_decay": 1e-4,
+    "use_cuda": true,
+    "data_folder": "dataset",
+    "voc07_path" : "VOCdevkit/VOC2007",
+    "voc12_path" : "VOCdevkit/VOC2012",
+    "backbone_network" : "MobileNetV2"
+}
+
