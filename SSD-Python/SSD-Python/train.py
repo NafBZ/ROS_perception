@@ -240,7 +240,7 @@ def main(args):
 	#print (start_epoch)
 	for epoch in range(start_epoch, epochs):
 			print("\nLR",optimizer.param_groups[0]['lr'])
-
+			
 			train_loss = train(train_loader=train_loader,
 					model=model,
 					criterion=criterion,
